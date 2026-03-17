@@ -3,76 +3,76 @@
     <picture>
       <source srcset="./logo-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="./logo-light.svg" media="(prefers-color-scheme: light)">
-      <img src="./logo-light.svg" alt="Models.dev logo">
+      <img src="./logo-light.svg" alt="Logo di Models.dev">
     </picture>
   </a>
 </p>
 
 ---
 
-[Models.dev](https://models.dev) is a comprehensive open-source database of AI model specifications, pricing, and capabilities.
+[Models.dev](https://models.dev) è un database open-source completo di specifiche, prezzi e capacità dei modelli AI.
 
-There's no single database with information about all the available AI models. We started Models.dev as a community-contributed project to address this. We also use it internally in [opencode](https://opencode.ai).
+Non esiste un database unico con informazioni su tutti i modelli AI disponibili. Abbiamo avviato Models.dev come un progetto contribuito dalla comunità per affrontare questa necessità. Lo utilizziamo anche internamente in [opencode](https://opencode.ai).
 
 ## API
 
-You can access this data through an API.
+Puoi accedere a questi dati attraverso un'API.
 
 ```bash
 curl https://models.dev/api.json
 ```
 
-Use the **Model ID** field to do a lookup on any model; it's the identifier used by [AI SDK](https://ai-sdk.dev/).
+Usa il campo **Model ID** per fare una ricerca su qualsiasi modello; è l'identificatore usato da [AI SDK](https://ai-sdk.dev/).
 
 ### Logos
 
-Provider logos are available as SVG files:
+I loghi dei provider sono disponibili come file SVG:
 
 ```bash
 curl https://models.dev/logos/{provider}.svg
 ```
 
-Replace `{provider}` with the **Provider ID** (e.g., `anthropic`, `openai`, `google`). If we don't have a provider's logo, a default logo is served instead.
+Sostituisci `{provider}` con l'**Provider ID** (es. `anthropic`, `openai`, `google`). Se non abbiamo un logo del provider, viene mostrato un logo predefitato.
 
 ## Contributing
 
-The data is stored in the repo as TOML files; organized by provider and model. The logo is stored as an SVG. This is used to generate this page and power the API.
+I dati sono stored nel repo come file TOML; organizzati per provider e modello. Il logo è stored come SVG. Questo viene usato per generare questa pagina e fornire l'API.
 
-We need your help keeping the data up to date.
+Abbiamo bisogno del tuo aiuto per mantenere i dati aggiornati.
 
-### Adding a New Model
+### Aggiungere un Nuovo Modello
 
-To add a new model, start by checking if the provider already exists in the `providers/` directory. If not, then:
+Per aggiungere un nuovo modello, inizia verificando se il provider esiste già nella directory `providers/`. Se non esiste, allora:
 
-#### 1. Create a Provider
+#### 1. Creare un Provider
 
-If the provider isn't already in `providers/`:
+Se il provider non è già in `providers/`:
 
-1. Create a new folder in `providers/` with the provider's ID. For example, `providers/newprovider/`.
-2. Add a `provider.toml` with the provider details:
+1. Crea una nuova folder in `providers/` con l'ID del provider. Per esempio, `providers/newprovider/`.
+2. Aggiungi un `provider.toml` con i dettagli del provider:
 
    ```toml
    name = "Provider Name"
-   npm = "@ai-sdk/provider" # AI SDK Package name
-   env = ["PROVIDER_API_KEY"] # Environment Variable keys used for auth
-   doc = "https://example.com/docs/models" # Link to provider's documentation
+   npm = "@ai-sdk/provider" # Nome del package AI SDK
+   env = ["PROVIDER_API_KEY"] # Chiavi delle variabili ambientali usate per l'autenticazione
+   doc = "https://example.com/docs/models" # Link alla documentazione del provider
    ```
 
-   If the provider doesn’t publish an npm package but exposes an OpenAI-compatible endpoint, set the npm field accordingly and include the base URL:
+   Se il provider non pubblica un package npm ma espone un endpoint compatibile con OpenAI, imposta il campo npm adeguatamente e includi il base URL:
 
    ```toml
-   npm = "@ai-sdk/openai-compatible" # Use OpenAI-compatible SDK
-   api = "https://api.example.com/v1" # Required with openai-compatible
+   npm = "@ai-sdk/openai-compatible" # Usa SDK compatibile con OpenAI
+   api = "https://api.example.com/v1" # Required con openai-compatible
    ```
 
-#### 2. Add a Logo (optional)
+#### 2. Aggiungere un Logo (opzionale)
 
-To add a logo for the provider:
+Per aggiungere un logo per il provider:
 
-1. Add a `logo.svg` file to the provider's directory (e.g., `providers/newprovider/logo.svg`)
-2. Use SVG format with no fixed size or colors - use `currentColor` for fills/strokes
+1. Aggiungi un file `logo.svg` alla directory del provider (es. `providers/newprovider/logo.svg`)
+2. Usa il formato SVG senza dimensione o colori fissi - usa `currentColor` per fills/strokes
 
-Example SVG structure:
+Esempio di struttura SVG:
 
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -80,32 +80,32 @@ Example SVG structure:
 </svg>
 ```
 
-#### 3. Add a Model Definition
+#### 3. Aggiungere una Definizione di Modello
 
-Create a new TOML file in the provider's `models/` directory where the filename is the model ID.
+Crea un nuovo file TOML nella directory `models/` del provider dove il filename è l'ID del modello.
 
-If the model ID contains `/`, use subfolders. For example, for the model ID `openai/gpt-5`, create a folder `openai/` and place a file named `gpt-5.toml` inside it.
+Se l'ID del modello contiene `/`, usa subfolders. Per esempio, per l'ID del modello `openai/gpt-5`, crea una folder `openai/` e inserisci un file chiamato `gpt-5.toml` dentro.
 
 ```toml
 name = "Model Display Name"
-attachment = true           # or false - supports file attachments
-reasoning = false           # or true - supports reasoning / chain-of-thought
-tool_call = true            # or false - supports tool calling
-structured_output = true    # or false - supports a dedicated structured output feature
-temperature = true          # or false - supports temperature control
-knowledge = "2024-04"       # Knowledge-cutoff date
-release_date = "2025-02-19" # First public release date
-last_updated = "2025-02-19" # Most recent update date
-open_weights = true         # or false  - model’s trained weights are publicly available
+attachment = true           # o false - supporta allegati di file
+reasoning = false           # o true - supporta reasoning / chain-of-thought
+tool_call = true            # o false - supporta tool calling
+structured_output = true    # o false - supporta una funzionalità dedicata di output strutturato
+temperature = true          # o false - supporta controllo della temperatura
+knowledge = "2024-04"       # Data di cutoff della conoscenza
+release_date = "2025-02-19" # Data del primo rilascio pubblico
+last_updated = "2025-02-19" # Data dell'update più recente
+open_weights = true         # o false  - i weights trained del modello sono pubblicamente disponibili
 
 [cost]
-input = 3.00                # Cost per million input tokens (USD)
-output = 15.00              # Cost per million output tokens (USD)
-reasoning = 15.00           # Cost per million reasoning tokens (USD)
-cache_read = 0.30           # Cost per million cached read tokens (USD)
-cache_write = 3.75          # Cost per million cached write tokens (USD)
-input_audio = 1.00          # Cost per million audio input tokens (USD)
-output_audio = 10.00        # Cost per million audio output tokens (USD)
+input = 3.00                # Costo per milione di token input (USD)
+output = 15.00              # Costo per milione di token output (USD)
+reasoning = 15.00           # Costo per milione di token reasoning (USD)
+cache_read = 0.30           # Costo per milione di token read cached (USD)
+cache_write = 3.75          # Costo per milione di token write cached (USD)
+input_audio = 1.00          # Costo per milione di token input audio (USD)
+output_audio = 10.00        # Costo per milione di token output audio (USD)
 
 [limit]
 context = 400_000           # Maximum context window (tokens)
@@ -117,79 +117,79 @@ input = ["text", "image"]   # Supported input modalities
 output = ["text"]           # Supported output modalities
 
 [interleaved]
-field = "reasoning_content" # Name of the interleaved field "reasoning_content" or "reasoning_details"
+field = "reasoning_content" # Nome del campo interleaved "reasoning_content" o "reasoning_details"
 ```
 
-#### 4. Submit a Pull Request
+#### 4. Submit un Pull Request
 
-1. Fork this repo
-2. Create a new branch with your changes
-3. Add your provider and/or model files
-4. Open a PR with a clear description
+1. Fork questo repo
+2. Crea un nuovo branch con le tue modifiche
+3. Aggiungi i tuoi file provider e/o modello
+4. Apri un PR con una descrizione chiara
 
 ### Validation
 
-There's a GitHub Action that will automatically validate your submission against our schema to ensure:
+C'è una GitHub Action che automaticamente valida la tua submission contro il nostro schema per garantire:
 
-- All required fields are present
-- Data types are correct
-- Values are within acceptable ranges
-- TOML syntax is valid
+- Tutti i campi required sono presenti
+- I tipi di dati sono corretti
+- I valori sono dentro i range accettable
+- La sintassi TOML è valida
 
 ### Schema Reference
 
-Models must conform to the following schema, as defined in `app/schemas.ts`.
+I modelli devono conformarsi allo schema seguente, come definito in `app/schemas.ts`.
 
 **Provider Schema:**
 
-- `name`: String - Display name of the provider
-- `npm`: String - AI SDK Package name
-- `env`: String[] - Environment variable keys used for auth
-- `doc`: String - Link to the provider's documentation
-- `api` _(optional)_: String - OpenAI-compatible API endpoint. Required only when using `@ai-sdk/openai-compatible` as the npm package
+- `name`: String - Display name del provider
+- `npm`: String - Nome del package AI SDK
+- `env`: String[] - Chiavi delle variabili ambientali usate per l'autenticazione
+- `doc`: String - Link alla documentazione del provider
+- `api` _(optional)_: String - Endpoint API compatibile con OpenAI. Required solo quando si usa `@ai-sdk/openai-compatible` come package npm
 
 **Model Schema:**
 
-- `name`: String — Display name of the model
-- `attachment`: Boolean — Supports file attachments
-- `reasoning`: Boolean — Supports reasoning / chain-of-thought
-- `tool_call`: Boolean - Supports tool calling
-- `structured_output` _(optional)_: Boolean — Supports structured output feature
-- `temperature` _(optional)_: Boolean — Supports temperature control
-- `knowledge` _(optional)_: String — Knowledge-cutoff date in `YYYY-MM` or `YYYY-MM-DD` format
-- `release_date`: String — First public release date in `YYYY-MM` or `YYYY-MM-DD`
-- `last_updated`: String — Most recent update date in `YYYY-MM` or `YYYY-MM-DD`
-- `open_weights`: Boolean - Indicate the model's trained weights are publicly available
-- `interleaved` _(optional)_: Boolean or Object — Supports interleaved reasoning. Use `true` for general support or an object with `field` to specify the format
-- `interleaved.field`: String — Name of the interleaved field (`"reasoning_content"` or `"reasoning_details"`)
-- `cost.input`: Number — Cost per million input tokens (USD)
-- `cost.output`: Number — Cost per million output tokens (USD)
-- `cost.reasoning` _(optional)_: Number — Cost per million reasoning tokens (USD)
-- `cost.cache_read` _(optional)_: Number — Cost per million cached read tokens (USD)
-- `cost.cache_write` _(optional)_: Number — Cost per million cached write tokens (USD)
-- `cost.input_audio` _(optional)_: Number — Cost per million audio input tokens, if billed separately (USD)
-- `cost.output_audio` _(optional)_: Number — Cost per million audio output tokens, if billed separately (USD)
+- `name`: String — Display name del modello
+- `attachment`: Boolean — Supporta allegati di file
+- `reasoning`: Boolean — Supporta reasoning / chain-of-thought
+- `tool_call`: Boolean - Supporta tool calling
+- `structured_output` _(optional)_: Boolean — Supporta funzionalità di output strutturato
+- `temperature` _(optional)_: Boolean — Supporta controllo della temperatura
+- `knowledge` _(optional)_: String — Data di cutoff della conoscenza in formato `YYYY-MM` o `YYYY-MM-DD`
+- `release_date`: String — Data del primo rilascio pubblico in formato `YYYY-MM` o `YYYY-MM-DD`
+- `last_updated`: String — Data dell'update più recente in formato `YYYY-MM` o `YYYY-MM-DD`
+- `open_weights`: Boolean - Indica che i weights trained del modello sono pubblicamente disponibili
+- `interleaved` _(optional)_: Boolean o Object — Supporta reasoning interleaved. Usa `true` per supporto generale o un object con `field` per specificare il formato
+- `interleaved.field`: String — Nome del campo interleaved (`"reasoning_content"` o `"reasoning_details"`)
+- `cost.input`: Number — Costo per milione di token input (USD)
+- `cost.output`: Number — Costo per milione di token output (USD)
+- `cost.reasoning` _(optional)_: Number — Costo per milione di token reasoning (USD)
+- `cost.cache_read` _(optional)_: Number — Costo per milione di token read cached (USD)
+- `cost.cache_write` _(optional)_: Number — Costo per milione di token write cached (USD)
+- `cost.input_audio` _(optional)_: Number — Costo per milione di token input audio, se billed separately (USD)
+- `cost.output_audio` _(optional)_: Number — Costo per milione di token output audio, se billed separately (USD)
 - `limit.context`: Number — Maximum context window (tokens)
 - `limit.input`: Number — Maximum input tokens
 - `limit.output`: Number — Maximum output tokens
-- `modalities.input`: Array of strings — Supported input modalities (e.g., ["text", "image", "audio", "video", "pdf"])
-- `modalities.output`: Array of strings — Supported output modalities (e.g., ["text"])
-- `status` _(optional)_: String — Supported status:
-  - `alpha` - Indicate the model is in alpha testing
-  - `beta` - Indicate the model is in beta testing
-  - `deprecated` - Indicate the model is no longer served by the provider's public API
+- `modalities.input`: Array di strings — Supported input modalities (es. ["text", "image", "audio", "video", "pdf"])
+- `modalities.output`: Array di strings — Supported output modalities (es. ["text"])
+- `status` _(optional)_: String — Status supportato:
+  - `alpha` - Indica che il modello è in testing alpha
+  - `beta` - Indica che il modello è in testing beta
+  - `deprecated` - Indica che il modello non è più served dall'API pubblica del provider
 
 ### Examples
 
-See existing providers in the `providers/` directory for reference:
+Vedi i provider esistenti nella directory `providers/` per riferimento:
 
-- `providers/anthropic/` - Anthropic Claude models
-- `providers/openai/` - OpenAI GPT models
-- `providers/google/` - Google Gemini models
+- `providers/anthropic/` - Modelli Anthropic Claude
+- `providers/openai/` - Modelli OpenAI GPT
+- `providers/google/` - Modelli Google Gemini
 
 ### Working on frontend
 
-Make sure you have [Bun](https://bun.sh/) installed.
+Assicurati di avere [Bun](https://bun.sh/) installato.
 
 ```bash
 $ bun install
@@ -197,11 +197,11 @@ $ cd packages/web
 $ bun run dev
 ```
 
-And it'll open the frontend at http://localhost:3000
+E aprirà il frontend a http://localhost:3000
 
-### Manual testing with opencode
+### Testing manuale con opencode
 
-You can manually check provider changes with opencode by:
+Puoi verificare manualmente le modifiche del provider con opencode:
 
 ```bash
 $ bun install
@@ -212,10 +212,10 @@ $ OPENCODE_MODELS_PATH="dist/_api.json" opencode
 
 ### Questions?
 
-Open an issue if you need help or have questions about contributing.
+Apri un issue se hai bisogno di aiuto o hai domande sul contributing.
 
 ---
 
-Models.dev is created by the maintainers of [SST](https://sst.dev).
+Models.dev è creato dai maintainers di [SST](https://sst.dev).
 
 **Join our community** [Discord](https://sst.dev/discord) | [YouTube](https://www.youtube.com/c/sst-dev) | [X.com](https://x.com/SST_dev)
